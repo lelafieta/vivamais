@@ -1,0 +1,34 @@
+import 'package:bloc/bloc.dart';
+
+enum UpdateStatus { checking, upToDate, outdated }
+
+class UpdateEvent {}
+
+class UpdateState {
+  final UpdateStatus status;
+  final String? storeUrl;
+
+  UpdateState(this.status, {this.storeUrl});
+}
+
+class UpdateBloc extends Bloc<UpdateEvent, UpdateState> {
+  final UpgradeHelper _upgradeHelper = UpgradeHelper();
+
+  UpdateBloc() : super(UpdateState(UpdateStatus.checking));
+
+  @override
+  Stream<UpdateState> mapEventToState(UpdateEvent event) async* {
+    if (event is UpdateEvent) {
+      yield UpdateState(UpdateStatus.checking);
+
+      final status = await _newVersion.getVersionStatus();
+
+      if (status == VersionStatus.update) {
+        yield UpdateState(UpdateStatus.outdated,
+            storeUrl: await _newVersion.getStoreUrl());
+      } else {
+        yield UpdateState(UpdateStatus.upToDate);
+      }
+    }
+  }
+}

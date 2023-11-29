@@ -1,0 +1,840 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:loading_more_list/loading_more_list.dart';
+import 'package:maxalert/bloc/atm/atm_bloc.dart';
+import 'package:maxalert/bloc/atm/atm_state.dart';
+import 'package:maxalert/data/repositories/atm_repository.dart';
+import 'package:maxalert/models/atm_with_status.dart';
+import 'package:maxalert/presentation/screens/atm/atm_details_screen.dart';
+import 'package:maxalert/presentation/screens/atm/widget/atm_widget.dart';
+import 'package:maxalert/presentation/screens/atm/widget/atm_widget_skeleton.dart';
+import 'package:maxalert/utils/app_colors.dart';
+import 'package:maxalert/utils/app_icons.dart';
+import 'package:maxalert/utils/app_images.dart';
+
+class SearchAtmScreen extends StatefulWidget {
+  final int type;
+  const SearchAtmScreen({super.key, required this.type});
+
+  @override
+  State<SearchAtmScreen> createState() => _SearchAtmScreenState();
+}
+
+class _SearchAtmScreenState extends State<SearchAtmScreen> {
+  int index = 0;
+
+  final ScrollController _controller = ScrollController();
+
+  final AtmRepository _atmRepository = AtmRepository();
+
+  late AtmBloc bloc;
+  List<AtmWithStatus> atms = [];
+  int _searchIndex = 0;
+  TextEditingController _query = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    bloc = AtmBloc(atmRepository: _atmRepository);
+    bloc.add(AtmLoadingEvent());
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    bloc.close();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.secondary,
+        elevation: 0,
+        automaticallyImplyLeading: false,
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Container(
+              width: 35,
+              height: 35,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(50),
+                color: Colors.black12,
+                image: DecorationImage(
+                  image: AssetImage(AppImages.USER_AVATAR),
+                ),
+              ),
+            ),
+            Container(
+              width: 150,
+              height: 40,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage(
+                    AppImages.MAIN_LOGO,
+                  ),
+                  fit: BoxFit.contain,
+                ),
+              ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                SvgPicture.asset(
+                  width: 20,
+                  color: Theme.of(context).colorScheme.background,
+                  AppIcons.MORE_MENU,
+                ),
+                SizedBox(
+                  width: 5,
+                ),
+                SvgPicture.asset(
+                  width: 20,
+                  color: Theme.of(context).colorScheme.background,
+                  AppIcons.SETTINGS,
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+      body: Container(
+        width: double.infinity,
+        height: double.infinity,
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage(
+              AppImages.PARTICULAR_BACKGROUND,
+            ),
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: Column(
+          children: [
+            Container(
+              color: Theme.of(context).colorScheme.secondary,
+              padding: EdgeInsets.all(10),
+              child: Stack(
+                children: [
+                  Container(
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Container(
+                            padding: EdgeInsets.only(left: 10, right: 120),
+                            decoration: BoxDecoration(
+                              color: Theme.of(context).colorScheme.background,
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                            child: TextField(
+                              controller: _query,
+                              style: GoogleFonts.rajdhani(
+                                fontWeight: FontWeight.w900,
+                              ),
+                              onChanged: (value) {
+                                print(value);
+                                bloc.add(
+                                    AtmSearchEvent(atms: atms, query: value));
+                              },
+                              decoration: InputDecoration(
+                                hintText: "ID, NOME, SITE",
+                                border: InputBorder.none,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Positioned(
+                    right: 0,
+                    top: 1,
+                    child: Container(
+                      height: 45,
+                      width: 100,
+                      child: ElevatedButton(
+                        onPressed: () {},
+                        style: ElevatedButton.styleFrom(
+                          primary: Theme.of(context)
+                              .colorScheme
+                              .primary, // Cor de fundo do botão
+                          onPrimary: Colors.white, // Cor do texto do botão
+                          elevation: 8, // Efeito de elevação
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(
+                              5,
+                            ), // BorderRadius do botão
+                          ),
+                        ),
+                        child: Text(
+                          "ATM",
+                          style: GoogleFonts.racingSansOne(
+                            fontSize: 20,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              width: double.infinity,
+              padding: EdgeInsets.all(5),
+              height: 40,
+              color: Theme.of(context).colorScheme.primaryContainer,
+              child: ListView(
+                scrollDirection: Axis.horizontal,
+                children: [
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 10),
+                    decoration: BoxDecoration(
+                      border: Border.all(width: 1, color: Colors.black),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.close,
+                        ),
+                        Text(
+                          "TODOS ATMS",
+                          style: GoogleFonts.rajdhani(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 12,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  InkWell(
+                    onTap: () {
+                      setState(() {
+                        _searchIndex = 1;
+                      });
+                      bloc.add(AtmComDinheiroEvent(atms: atms));
+                    },
+                    child: Container(
+                      padding: EdgeInsets.symmetric(horizontal: 10),
+                      decoration: BoxDecoration(
+                        color: (_searchIndex == 1)
+                            ? AppColors.GREEN_COLOR
+                            : Colors.transparent,
+                        border: Border.all(
+                          width: 1,
+                          color: AppColors.GREEN_COLOR,
+                        ),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.attach_money,
+                            color: (_searchIndex == 1)
+                                ? AppColors.WHITE_COLOR
+                                : AppColors.GREEN_COLOR,
+                          ),
+                          Text(
+                            "COM DINHEIRO",
+                            style: GoogleFonts.rajdhani(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 12,
+                              color: (_searchIndex == 1)
+                                  ? AppColors.WHITE_COLOR
+                                  : AppColors.GREEN_COLOR,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  InkWell(
+                    onTap: () {
+                      setState(() {
+                        _searchIndex = 2;
+                      });
+                      bloc.add(AtmSemDinheiroEvent(atms: atms));
+                    },
+                    child: Container(
+                      padding: EdgeInsets.symmetric(horizontal: 10),
+                      decoration: BoxDecoration(
+                        color: (_searchIndex == 2)
+                            ? AppColors.RED_COLOR
+                            : Colors.transparent,
+                        border: Border.all(
+                          width: 1,
+                          color: AppColors.RED_COLOR,
+                        ),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.money_off_csred,
+                            color: (_searchIndex == 2)
+                                ? AppColors.WHITE_COLOR
+                                : AppColors.RED_COLOR,
+                          ),
+                          Text(
+                            "SEM DINHEIRO",
+                            style: GoogleFonts.rajdhani(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 12,
+                              color: (_searchIndex == 2)
+                                  ? AppColors.WHITE_COLOR
+                                  : AppColors.RED_COLOR,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  InkWell(
+                    onTap: () {
+                      setState(() {
+                        _searchIndex = 3;
+                      });
+                      bloc.add(AtmPoucoDinheiroEvent(atms: atms));
+                    },
+                    child: Container(
+                      padding: EdgeInsets.symmetric(horizontal: 10),
+                      decoration: BoxDecoration(
+                        color: (_searchIndex == 3)
+                            ? AppColors.ORANGE_COLOR
+                            : Colors.transparent,
+                        border: Border.all(
+                          width: 1,
+                          color: (_searchIndex == 3)
+                              ? AppColors.ORANGE_COLOR
+                              : AppColors.ORANGE_COLOR,
+                        ),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.money_off,
+                            color: (_searchIndex == 3)
+                                ? AppColors.WHITE_COLOR
+                                : Colors.orange,
+                          ),
+                          Text(
+                            "POUCO DINHEIRO",
+                            style: GoogleFonts.rajdhani(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 12,
+                              color: (_searchIndex == 3)
+                                  ? AppColors.WHITE_COLOR
+                                  : Colors.orange,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  InkWell(
+                    onTap: () {
+                      setState(() {
+                        _searchIndex = 4;
+                      });
+                      bloc.add(AtmAnomaliaCartaoEvent(atms: atms));
+                    },
+                    child: Container(
+                      padding: EdgeInsets.symmetric(horizontal: 10),
+                      decoration: BoxDecoration(
+                        color: (_searchIndex == 4)
+                            ? AppColors.RED_COLOR
+                            : Colors.transparent,
+                        border: Border.all(
+                          width: 1,
+                          color: AppColors.RED_COLOR,
+                        ),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.sd_card_alert_rounded,
+                            color: (_searchIndex == 4)
+                                ? AppColors.WHITE_COLOR
+                                : AppColors.RED_COLOR,
+                          ),
+                          Text(
+                            "ANOMALIA CARTÃO",
+                            style: GoogleFonts.rajdhani(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 12,
+                              color: (_searchIndex == 4)
+                                  ? AppColors.WHITE_COLOR
+                                  : AppColors.RED_COLOR,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  InkWell(
+                    onTap: () {
+                      setState(() {
+                        _searchIndex = 5;
+                      });
+                      bloc.add(AtmOnlineEvent(atms: atms));
+                    },
+                    child: Container(
+                      padding: EdgeInsets.symmetric(horizontal: 10),
+                      decoration: BoxDecoration(
+                        color: (_searchIndex == 5)
+                            ? AppColors.GREEN_COLOR
+                            : Colors.transparent,
+                        border: Border.all(
+                          width: 1,
+                          color: AppColors.GREEN_COLOR,
+                        ),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.wifi,
+                            color: (_searchIndex == 5)
+                                ? AppColors.WHITE_COLOR
+                                : AppColors.GREEN_COLOR,
+                          ),
+                          Text(
+                            "ONLINE",
+                            style: GoogleFonts.rajdhani(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 12,
+                              color: (_searchIndex == 5)
+                                  ? AppColors.WHITE_COLOR
+                                  : AppColors.GREEN_COLOR,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 10),
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        width: 1,
+                        color: AppColors.RED_COLOR,
+                      ),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.monitor_heart,
+                          color: AppColors.RED_COLOR,
+                        ),
+                        Text(
+                          "ANOMALIA TÉCNICA",
+                          style: GoogleFonts.rajdhani(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 12,
+                            color: AppColors.RED_COLOR,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  InkWell(
+                    onTap: () {
+                      setState(() {
+                        _searchIndex = 7;
+                      });
+                      bloc.add(Atm3MilhoesEvent(atms: atms));
+                    },
+                    child: Container(
+                      padding: EdgeInsets.symmetric(horizontal: 10),
+                      decoration: BoxDecoration(
+                        color: (_searchIndex == 7)
+                            ? AppColors.ORANGE_COLOR
+                            : Colors.transparent,
+                        border: Border.all(
+                          width: 1,
+                          color: AppColors.ORANGE_COLOR,
+                        ),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.trending_down_rounded,
+                            color: (_searchIndex == 7)
+                                ? AppColors.WHITE_COLOR
+                                : AppColors.ORANGE_COLOR,
+                          ),
+                          Text(
+                            "ABAIXO DE \$\3 MILHOES",
+                            style: GoogleFonts.rajdhani(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 12,
+                              color: (_searchIndex == 7)
+                                  ? AppColors.WHITE_COLOR
+                                  : AppColors.ORANGE_COLOR,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  InkWell(
+                    onTap: () {
+                      setState(() {
+                        _searchIndex = 8;
+                      });
+                      bloc.add(AtmOfflineEvent(atms: atms));
+                    },
+                    child: Container(
+                      padding: EdgeInsets.symmetric(horizontal: 10),
+                      decoration: BoxDecoration(
+                        color: (_searchIndex == 8)
+                            ? AppColors.RED_COLOR
+                            : Colors.transparent,
+                        border: Border.all(
+                          width: 1,
+                          color: AppColors.RED_COLOR,
+                        ),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.wifi_off_rounded,
+                            color: AppColors.RED_COLOR,
+                          ),
+                          Text(
+                            "OFFLINE",
+                            style: GoogleFonts.rajdhani(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 12,
+                              color: AppColors.RED_COLOR,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  InkWell(
+                    onTap: () {
+                      setState(() {
+                        _searchIndex = 9;
+                      });
+                      bloc.add(AtmComPapelEvent(atms: atms));
+                    },
+                    child: Container(
+                      padding: EdgeInsets.symmetric(horizontal: 10),
+                      decoration: BoxDecoration(
+                        color: (_searchIndex == 9)
+                            ? Colors.green
+                            : Colors.transparent,
+                        border: Border.all(
+                          width: 1,
+                          color: AppColors.GREEN_COLOR,
+                        ),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.check_box,
+                            color: (_searchIndex == 9)
+                                ? Colors.white
+                                : Colors.green,
+                          ),
+                          Text(
+                            "COM PAPEL",
+                            style: GoogleFonts.rajdhani(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 12,
+                              color: (_searchIndex == 9)
+                                  ? Colors.white
+                                  : Colors.green,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  InkWell(
+                    onTap: () {
+                      setState(() {
+                        _searchIndex = 10;
+                      });
+                      bloc.add(AtmSemPapelEvent(atms: atms));
+                    },
+                    child: Container(
+                      padding: EdgeInsets.symmetric(horizontal: 10),
+                      decoration: BoxDecoration(
+                        color: (_searchIndex == 10)
+                            ? Colors.red
+                            : Colors.transparent,
+                        border: Border.all(
+                          width: 1,
+                          color: AppColors.RED_COLOR,
+                        ),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.cancel_presentation_outlined,
+                            color: (_searchIndex == 10)
+                                ? Colors.white
+                                : Colors.red,
+                          ),
+                          Text(
+                            "SEM PAPEL",
+                            style: GoogleFonts.rajdhani(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 12,
+                              color: (_searchIndex == 10)
+                                  ? Colors.white
+                                  : Colors.red,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  InkWell(
+                    onTap: () {
+                      setState(() {
+                        _searchIndex = 11;
+                      });
+                      bloc.add(AtmPoucoPapel(atms: atms));
+                    },
+                    child: Container(
+                      padding: EdgeInsets.symmetric(horizontal: 10),
+                      decoration: BoxDecoration(
+                        color: (_searchIndex == 11)
+                            ? Colors.orange
+                            : Colors.transparent,
+                        border: Border.all(
+                          width: 1,
+                          color: AppColors.ORANGE_COLOR,
+                        ),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.rectangle,
+                            color: (_searchIndex == 11)
+                                ? Colors.white
+                                : Colors.orange,
+                          ),
+                          Text(
+                            "POUCO PAPEL",
+                            style: GoogleFonts.rajdhani(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 12,
+                              color: (_searchIndex == 11)
+                                  ? Colors.white
+                                  : Colors.orange,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Expanded(
+              child: Container(
+                padding: EdgeInsets.all(10),
+                child: BlocBuilder<AtmBloc, AtmState>(
+                    bloc: bloc,
+                    builder: (context, state) {
+                      if (state is AtmInitialState) {
+                        return Padding(
+                          padding: const EdgeInsets.only(top: 10),
+                          child: GridView.builder(
+                            physics: ClampingScrollPhysics(),
+                            shrinkWrap: true,
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              mainAxisSpacing: 10.0,
+                              crossAxisSpacing: 10.0,
+                              childAspectRatio: 1,
+                              mainAxisExtent: 380,
+                            ),
+                            itemCount: 4,
+                            itemBuilder: (context, index) {
+                              return AtmWidgetSkeleton();
+                            },
+                          ),
+                        );
+                      }
+                      if (state is AtmFailureState) {
+                        return Text("${state.error}");
+                      }
+
+                      if (state is AtmSuccessState) {
+                        atms = state.atms;
+                        if (atms.isEmpty) {
+                          return Text("SEM DADOS");
+                        }
+                        return LoadingMoreList<AtmWithStatus>(
+                          ListConfig<AtmWithStatus>(
+                            itemBuilder: (BuildContext context,
+                                AtmWithStatus atm, int index) {
+                              return InkWell(
+                                onTap: () {
+                                  Get.to(
+                                    () => AtmDetailsScreen(
+                                      atm: atm.atm,
+                                      status: atm.status,
+                                    ),
+                                  ); // Passando o objeto AtmModel para a tela de detalhes
+                                },
+                                child: AtmWidget(
+                                  atm: atm.atm,
+                                  status: atm.status,
+                                ),
+                              );
+                            },
+                            indicatorBuilder: (context, status) {
+                              return Padding(
+                                padding: const EdgeInsets.only(top: 10),
+                                child: GridView.builder(
+                                  physics: ClampingScrollPhysics(),
+                                  shrinkWrap: true,
+                                  gridDelegate:
+                                      SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 2,
+                                    mainAxisSpacing: 10.0,
+                                    crossAxisSpacing: 10.0,
+                                    childAspectRatio: 1,
+                                    mainAxisExtent: 350,
+                                  ),
+                                  itemCount: 4,
+                                  itemBuilder: (context, index) {
+                                    return AtmWidgetSkeleton();
+                                  },
+                                ),
+                              );
+                            },
+                            sourceList: MySourceList(fullList: state.atms),
+                            controller: _controller,
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              mainAxisSpacing: 10.0,
+                              crossAxisSpacing: 10.0,
+                              childAspectRatio: 1,
+                              mainAxisExtent: 350,
+                            ),
+                          ),
+                        );
+                      }
+
+                      return Container();
+                    }),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class MySourceList extends LoadingMoreBase<AtmWithStatus> {
+  int _currentPage = 1;
+  int _itemsPerPage = 2;
+  final List<AtmWithStatus> _fullList;
+
+  MySourceList({required List<AtmWithStatus> fullList}) : _fullList = fullList;
+
+  @override
+  bool get hasMore => (_currentPage * _itemsPerPage) <= _fullList.length;
+
+  @override
+  Future<bool> loadData([bool isLoadMoreAction = false]) async {
+    await Future.delayed(Duration(seconds: 2));
+
+    int startIndex = (_currentPage - 1) * _itemsPerPage;
+    int endIndex = _currentPage * _itemsPerPage;
+
+    if (endIndex > _fullList.length) {
+      endIndex = _fullList.length;
+    }
+
+    if (startIndex < endIndex) {
+      List<AtmWithStatus> newItems = _fullList.sublist(startIndex, endIndex);
+      addAll(newItems);
+      _currentPage++;
+    }
+
+    return true;
+  }
+}
