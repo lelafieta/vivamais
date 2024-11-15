@@ -1,12 +1,12 @@
 import 'package:animate_do/animate_do.dart';
-import 'package:blood/src/app/app_entity.dart';
-import 'package:blood/src/core/utils/app_strings.dart';
+import 'package:vivamais/src/app/app_entity.dart';
+import 'package:vivamais/src/core/utils/app_strings.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:switcher_button/switcher_button.dart';
 
-import '../../../../core/config/theme/color_palette.dart';
+import '../../../../config/theme/color_palette.dart';
 import '../../../../core/resources/app_icons.dart';
 import '../../../../core/resources/app_images.dart';
 import '../../../../core/resources/app_svg.dart';

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import '../../../../core/config/theme/color_palette.dart';
+import '../../../../config/theme/color_palette.dart';
 import '../../../../core/resources/app_icons.dart';
 import '../../../../core/resources/app_images.dart';
 import '../../../../core/resources/app_svg.dart';

@@ -1,4 +1,5 @@
 {
   "debug.allowBreakpointsEverywhere": true,
-  "files.autoGuessEncoding": true
+  "files.autoGuessEncoding": true,
+  "cmake.sourceDirectory": "D:/MY_PROJECT/kuzinga app/vivamais/windows/runner"
 }

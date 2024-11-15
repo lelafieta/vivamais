@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../../app/app_entity.dart';
-import '../../../../core/config/theme/color_palette.dart';
+import '../../../../config/theme/color_palette.dart';
 import '../../../../core/resources/app_icons.dart';
 import '../../../account/presentation/views/account_view.dart';
 import '../../../feed/presentation/views/feed_view.dart';

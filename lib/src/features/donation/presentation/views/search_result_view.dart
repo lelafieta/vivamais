@@ -18,13 +18,15 @@
 
 import 'dart:async';
 
-import 'package:blood/src/core/config/theme/color_palette.dart';
+import 'package:sheet/sheet.dart';
+import 'package:snapping_sheet/snapping_sheet.dart';
+import 'package:vivamais/src/config/theme/color_palette.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:interactive_bottom_sheet/interactive_bottom_sheet.dart';
 
-import '../../../../core/config/routes/routes.dart';
+import '../../../../config/routes/routes.dart';
 import '../../../../core/resources/app_icons.dart';
 import '../../../../core/resources/app_images.dart';
 import '../../../../core/utils/app_values.dart';
@@ -51,8 +53,61 @@ class _SearchResultViewState extends State<SearchResultView> {
       tilt: 59.440717697143555,
       zoom: 19.151926040649414);
 
+  final ScrollController listViewController = new ScrollController();
+
   @override
   Widget build(BuildContext context) {
+    // return Scaffold(
+    //   body: SnappingSheet(
+    //     child: Text("TEXT"),
+    //     lockOverflowDrag: true,
+    //     snappingPositions: [
+    //       SnappingPosition.factor(
+    //         positionFactor: 0.1,
+    //         snappingCurve: Curves.easeOutExpo,
+    //         snappingDuration: Duration(seconds: 1),
+    //         grabbingContentOffset: GrabbingContentOffset.top,
+    //       ),
+    //       SnappingPosition.factor(
+    //         snappingCurve: Curves.elasticOut,
+    //         snappingDuration: Duration(milliseconds: 1750),
+    //         positionFactor: 0.5,
+    //       ),
+    //       SnappingPosition.factor(
+    //         grabbingContentOffset: GrabbingContentOffset.bottom,
+    //         snappingCurve: Curves.easeInExpo,
+    //         snappingDuration: Duration(seconds: 1),
+    //         positionFactor: 0.9,
+    //       ),
+    //     ],
+    //     grabbing: Container(
+    //       color: Colors.red,
+    //     ),
+    //     grabbingHeight: 20,
+    //     sheetAbove: null,
+    //     sheetBelow: SnappingSheetContent(
+    //       draggable: true,
+    //       childScrollController: listViewController,
+    //       child: Container(
+    //         color: Colors.white,
+    //         child: ListView.builder(
+    //           controller: listViewController,
+    //           itemBuilder: (context, index) {
+    //             return Container(
+    //               margin: EdgeInsets.all(15),
+    //               color: Colors.green[200],
+    //               height: 100,
+    //               child: Center(
+    //                 child: Text(index.toString()),
+    //               ),
+    //             );
+    //           },
+    //         ),
+    //       ),
+    //     ),
+    //   ),
+    // );
+
     return Scaffold(
       body: GoogleMap(
         mapType: MapType.normal,

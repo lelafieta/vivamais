@@ -4,8 +4,8 @@ import 'package:flutter_onboarding_slider/flutter_onboarding_slider.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../../../../core/config/routes/routes.dart';
-import '../../../../core/config/theme/color_palette.dart';
+import '../../../../config/routes/routes.dart';
+import '../../../../config/theme/color_palette.dart';
 import '../../../../core/resources/app_svg.dart';
 import '../../../../core/utils/app_strings.dart';
 import '../../../../core/utils/app_values.dart';

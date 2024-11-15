@@ -1,4 +1,4 @@
-import '../features/auth/domain/entities/user_entity.dart';
+import '../features/user/domain/entities/user_entity.dart';
 
 class AppEntity {
   static UserEntity? currentUser;

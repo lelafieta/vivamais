@@ -1,9 +1,9 @@
 import 'package:animate_do/animate_do.dart';
-import 'package:blood/src/core/config/routes/routes.dart';
+import 'package:vivamais/src/config/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../../../../core/config/theme/color_palette.dart';
+import '../../../../config/theme/color_palette.dart';
 import '../../../../core/resources/app_icons.dart';
 import '../../../../core/resources/app_images.dart';
 import '../../../../core/resources/app_svg.dart';

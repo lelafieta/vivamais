@@ -1,4 +1,4 @@
-import 'package:blood/src/features/auth/domain/entities/user_entity.dart';
+import 'package:vivamais/src/features/user/domain/entities/user_entity.dart';
 
 abstract class VivaMaisState {}
 

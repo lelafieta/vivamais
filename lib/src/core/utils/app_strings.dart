@@ -6,7 +6,7 @@ class AppStrings {
   static const String comecar = "Começar";
   static const String loginOrRegister = "Login ou Registar";
   static const String authInfo =
-      "Por favor faça o login ou registo com seu número ou e-mail";
+      "Por favor faça o login ou registo com seu telefone";
 
   //
   static const String en = "en";
@@ -14,6 +14,7 @@ class AppStrings {
   static const String selectCountry = "Selecione país";
   static const String phone = "Telefone";
   static const String searchCountry = "Pesquisar país";
+  static const String searchDonor = "Pesquisar Doador";
   static const String ao = "AO";
   static const String forgetOrChanged = "Esqueceu o número de telefone?";
   static const String verifyCode = "Verificação de Código";

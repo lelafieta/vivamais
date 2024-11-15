@@ -1,12 +1,12 @@
 import 'package:animate_do/animate_do.dart';
-import 'package:blood/src/core/config/routes/routes.dart';
+import 'package:vivamais/src/config/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 
-import '../../../../core/config/theme/color_palette.dart';
+import '../../../../config/theme/color_palette.dart';
 import '../../../../core/resources/app_icons.dart';
 import '../../../../core/resources/app_images.dart';
 import '../../../../core/resources/app_svg.dart';

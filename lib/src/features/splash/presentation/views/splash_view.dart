@@ -1,12 +1,13 @@
 import 'dart:async';
 
-import 'package:blood/src/app/app_entity.dart';
-import 'package:blood/src/core/resources/app_images.dart';
+import 'package:get/get.dart';
+import 'package:vivamais/src/app/app_entity.dart';
+import 'package:vivamais/src/core/resources/app_images.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-import '../../../../core/config/routes/routes.dart';
-import '../../../../core/config/theme/color_palette.dart';
+import '../../../../config/routes/routes.dart';
+import '../../../../config/theme/color_palette.dart';
 
 class SplashPage extends StatefulWidget {
   @override
@@ -34,11 +35,17 @@ class _SplashPageState extends State<SplashPage> {
   }
 
   void _goToNext() async {
+    final String? uid = await storage.read(key: "uid");
+    final String? userProfile = await storage.read(key: "userProfile");
+    final String? phoneNumber = await storage.read(key: "phoneNumber");
     if (await storage.read(key: "onboarding") == "true") {
       if (AppEntity.uid != null) {
-        Navigator.of(context).pushNamed(Routes.vivaMaisRoute);
+        if (userProfile != null || userProfile != "") {
+          Navigator.of(context).pushNamed(Routes.vivaMaisRoute);
+        } else {
+          Get.toNamed(Routes.registerRoute, arguments: phoneNumber);
+        }
       } else {
-        //Navigator.of(context).pushNamed(Routes.loginRoute);
         Navigator.of(context).pushNamed(Routes.loginRoute);
       }
     } else {

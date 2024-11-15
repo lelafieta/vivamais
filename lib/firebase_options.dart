@@ -50,21 +50,20 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyBXELIiMple9PIvQ0SfX6aJd46KcRRx8eM',
-    appId: '1:113558583175:android:47a9605a562ab4c5570522',
-    messagingSenderId: '113558583175',
-    projectId: 'biometricafrizona',
-    databaseURL: 'https://biometricafrizona-default-rtdb.firebaseio.com',
-    storageBucket: 'biometricafrizona.appspot.com',
+    apiKey: 'AIzaSyCZ4F3sMw482aRDL98OmHicSxdGcaBz79E',
+    appId: '1:553467612820:android:09192bb9c613e17e53ee81',
+    messagingSenderId: '553467612820',
+    projectId: 'vivamaismobile',
+    storageBucket: 'vivamaismobile.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyBbC8vxQHOSSZSYU8wgT5HUT1puI3woAO8',
-    appId: '1:113558583175:ios:4f664c08fd9b778b570522',
-    messagingSenderId: '113558583175',
-    projectId: 'biometricafrizona',
-    databaseURL: 'https://biometricafrizona-default-rtdb.firebaseio.com',
-    storageBucket: 'biometricafrizona.appspot.com',
-    iosBundleId: 'com.example.blood',
+    apiKey: 'AIzaSyD09ZqOZYFcpk8vMH5Wim3bastM2Mk9CSA',
+    appId: '1:553467612820:ios:e119c2561164b47e53ee81',
+    messagingSenderId: '553467612820',
+    projectId: 'vivamaismobile',
+    storageBucket: 'vivamaismobile.appspot.com',
+    iosBundleId: 'com.vivamais.mobile',
   );
+
 }

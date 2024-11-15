@@ -35,6 +35,8 @@ class AppIcons {
   static const bp = "${iconPath}blood-b-p.svg";
   static const oN = "${iconPath}blood-o-n.svg";
   static const op = "${iconPath}blood-o-p.svg";
+  static const b = "${iconPath}blood-b.svg";
+  static const ab = "${iconPath}blood-ab-p.svg";
 
   static const anBorder = "${iconPath}blood-a-n-border.svg";
   static const apBorder = "${iconPath}blood-a-p-border.svg";
@@ -46,4 +48,5 @@ class AppIcons {
   static const crown = "${iconPath}crown.svg";
   static const send = "${iconPath}send.svg";
   static const attachment = "${iconPath}attachment.svg";
+  static const googleSvgrepo = "${iconPath}google-svgrepo-com.svg";
 }

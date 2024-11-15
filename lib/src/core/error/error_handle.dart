@@ -1,4 +1,4 @@
-import 'package:blood/src/core/error/failure.dart';
+import 'package:vivamais/src/core/error/failure.dart';
 
 class ErrorHandle {
   static String handle(Failure failure) {

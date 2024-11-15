@@ -19,8 +19,8 @@
 import 'dart:async';
 
 import 'package:animate_do/animate_do.dart';
-import 'package:blood/src/core/config/theme/color_palette.dart';
-import 'package:blood/src/core/resources/app_svg.dart';
+import 'package:vivamais/src/config/theme/color_palette.dart';
+import 'package:vivamais/src/core/resources/app_svg.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';

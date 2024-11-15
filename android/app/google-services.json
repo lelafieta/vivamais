@@ -1,152 +1,26 @@
 {
   "project_info": {
-    "project_number": "113558583175",
-    "firebase_url": "https://biometricafrizona-default-rtdb.firebaseio.com",
-    "project_id": "biometricafrizona",
-    "storage_bucket": "biometricafrizona.appspot.com"
+    "project_number": "553467612820",
+    "project_id": "vivamaismobile",
+    "storage_bucket": "vivamaismobile.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:113558583175:android:9f102b8504e35b25570522",
+        "mobilesdk_app_id": "1:553467612820:android:09192bb9c613e17e53ee81",
         "android_client_info": {
-          "package_name": "com.afrigest.com"
+          "package_name": "com.vivamais.mobile"
         }
       },
-      "oauth_client": [
-        {
-          "client_id": "113558583175-6de7v5if0e6937nqdeu5hqn08t2vbbpo.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
+      "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyBXELIiMple9PIvQ0SfX6aJd46KcRRx8eM"
+          "current_key": "AIzaSyCZ4F3sMw482aRDL98OmHicSxdGcaBz79E"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "113558583175-6de7v5if0e6937nqdeu5hqn08t2vbbpo.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
-              "client_id": "113558583175-3418vspafjvjnk3152tuari5cu91kppc.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.example.biometricAfrizona.RunnerTests"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:113558583175:android:a04050fc8d625f8b570522",
-        "android_client_info": {
-          "package_name": "com.afrizona.maxalerts_app"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "113558583175-6de7v5if0e6937nqdeu5hqn08t2vbbpo.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyBXELIiMple9PIvQ0SfX6aJd46KcRRx8eM"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "113558583175-6de7v5if0e6937nqdeu5hqn08t2vbbpo.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
-              "client_id": "113558583175-3418vspafjvjnk3152tuari5cu91kppc.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.example.biometricAfrizona.RunnerTests"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:113558583175:android:298a71d274b0555d570522",
-        "android_client_info": {
-          "package_name": "com.example.biometric_afrizona"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "113558583175-6de7v5if0e6937nqdeu5hqn08t2vbbpo.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyBXELIiMple9PIvQ0SfX6aJd46KcRRx8eM"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "113558583175-6de7v5if0e6937nqdeu5hqn08t2vbbpo.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
-              "client_id": "113558583175-3418vspafjvjnk3152tuari5cu91kppc.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.example.biometricAfrizona.RunnerTests"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:113558583175:android:47a9605a562ab4c5570522",
-        "android_client_info": {
-          "package_name": "com.example.blood"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "113558583175-6de7v5if0e6937nqdeu5hqn08t2vbbpo.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyBXELIiMple9PIvQ0SfX6aJd46KcRRx8eM"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "113558583175-6de7v5if0e6937nqdeu5hqn08t2vbbpo.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
-              "client_id": "113558583175-3418vspafjvjnk3152tuari5cu91kppc.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.example.biometricAfrizona.RunnerTests"
-              }
-            }
-          ]
+          "other_platform_oauth_client": []
         }
       }
     }
